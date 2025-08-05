@@ -4,7 +4,6 @@ package com.chatapp.chatapp.services;
 import com.chatapp.chatapp.dto.RegisterRequest;
 import com.chatapp.chatapp.dto.UserResponse;
 import com.chatapp.chatapp.exceptions.DuplicateResourceException;
-import com.chatapp.chatapp.exceptions.UserNotFoundException;
 import com.chatapp.chatapp.models.User;
 import com.chatapp.chatapp.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
