@@ -1,5 +1,6 @@
 package com.chatapp.chatapp.models;
 
+import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data // יוצר אוטומטית גטרים, סטרים, toString, equals, hashCode
@@ -30,5 +32,31 @@ public class User {
 
     @Builder.Default
     private Date createdAt = new Date(); // ברירת מחדל: תאריך יצירה אוטומטי בזמן יצירת האובייקט
-}
 
+    private String firstName;
+
+    private String lastName;
+
+    @Builder.Default
+    private boolean isOnline = false;
+
+    @Builder.Default
+    private LocalDateTime lastSeen = LocalDateTime.now();
+
+
+    public void markAsOnline() {
+        this.isOnline = true;
+        this.lastSeen = LocalDateTime.now();
+    }
+
+
+    public void markAsOffline() {
+        this.isOnline = false;
+        this.lastSeen = LocalDateTime.now();
+    }
+
+    public String getFullName()
+    {
+        return getFirstName() + " " + getLastName();
+    }
+}

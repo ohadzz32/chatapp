@@ -18,6 +18,7 @@ import java.util.Date;
 public class Message {
     @Id
     private String id;
+    private String chatId;
     private String text;
     private String senderId;
 
