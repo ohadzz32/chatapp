@@ -57,4 +57,4 @@ public class ChatController {
         ChatResponse chat = chatService.createGroupChat(name, createdBy, participantIds);
         return ResponseEntity.ok(chat);
     }
-} 
+}
