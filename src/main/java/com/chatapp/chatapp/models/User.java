@@ -1,6 +1,6 @@
 package com.chatapp.chatapp.models;
 
-import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Encrypted;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -23,11 +24,19 @@ public class User {
     @Id
     private String id; // מזהה ייחודי במסד הנתונים
 
+    @NotBlank
     private String username;
 
+    @Email
     @Indexed(unique = true)
     private String email;
 
+    @Size(min = 6)
+    @NotBlank
+    @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+            message = "Password must be at least 8 chars and include uppercase, lowercase, number and special char"
+    ) //הסיסמה צריכה להיות לפחות עם אות גדולה וקטנה אחת בנוסף סימן מיוחד ושהאורך שלה יהיה שמונה תווים
     private String password;
 
     @Builder.Default

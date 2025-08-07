@@ -8,10 +8,18 @@ import java.util.List;
 @Data
 @Builder
 public class ChatResponse {
+
     private String id;
+
     private String name;
+
     private boolean isGroup;
+
     private String createdBy;
+
     private List<String> participantIds;
+
     private LocalDateTime createdAt;
-} 
+}
+
+// הפרופיל של הצאט עצמו
