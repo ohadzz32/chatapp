@@ -25,27 +25,27 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
     
-    public String generateToken(String email) {
-        return generateToken(new HashMap<>(), email);
+    public String generateToken(String username) {
+        return generateToken(new HashMap<>(), username);
     }
     
-    public String generateToken(Map<String, Object> extraClaims, String email) {
+    public String generateToken(Map<String, Object> extraClaims, String username) {
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
     
-    public String extractEmail(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
     
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String email = extractEmail(token);
-        return (email.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
     
     private boolean isTokenExpired(String token) {

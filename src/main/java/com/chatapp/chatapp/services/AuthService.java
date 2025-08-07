@@ -24,7 +24,7 @@ public class AuthService {
     
     public AuthResponse register(RegisterRequest request) {
         UserResponse userResponse = userService.registerUser(request);
-        String token = jwtService.generateToken(userResponse.getEmail());
+        String token = jwtService.generateToken(userResponse.getUsername());
         
         return AuthResponse.builder()
                 .token(token)
@@ -42,7 +42,7 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
         UserResponse userResponse = userService.getUserById(user.getId());
-        String token = jwtService.generateToken(userResponse.getEmail());
+        String token = jwtService.generateToken(userResponse.getUsername());
         
         // סימון המשתמש כ-online
         userService.markUserAsOnline(user.getId());
