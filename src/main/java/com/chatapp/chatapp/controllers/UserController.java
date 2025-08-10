@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @Slf4j
-@SuppressWarnings("unused")
+
 public class UserController {
     
     private final UserService userService;
@@ -37,14 +37,19 @@ public class UserController {
         List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable String id) {
         log.info("Getting user by ID: {}", id);
-        UserResponse user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+        try {
+            UserResponse user = userService.getUserById(id);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            log.error("User not found with ID: {}", id);
+            return ResponseEntity.notFound().build();
+        }
     }
-    
+
     @PutMapping("/online")
     public ResponseEntity<Void> markUserAsOnline(Authentication authentication) {
         String username = authentication.getName();
@@ -54,7 +59,7 @@ public class UserController {
         userService.markUserAsOnline(user.getId());
         return ResponseEntity.ok().build();
     }
-    
+
     @PutMapping("/offline")
     public ResponseEntity<Void> markUserAsOffline(Authentication authentication) {
         String username = authentication.getName();
@@ -64,4 +69,5 @@ public class UserController {
         userService.markUserAsOffline(user.getId());
         return ResponseEntity.ok().build();
     }
-} 
+
+}

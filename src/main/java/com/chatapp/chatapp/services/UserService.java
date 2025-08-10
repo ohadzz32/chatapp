@@ -18,15 +18,14 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings("unused")
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder; // מצפין סיסמאות
 
     public UserResponse registerUser(RegisterRequest request) {
         log.info("Registering new user: {}", request.getUsername());
-                // בדיקה אם המשתמש קיים
+
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             log.warn("Email already exists: {}", request.getEmail());
             throw new DuplicateResourceException("Email already exists");
@@ -37,7 +36,6 @@ public class UserService {
             throw new DuplicateResourceException("Username already exists");
         }
 
-        // יצירת משתמש חדש
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -59,9 +57,13 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public UserResponse getUserById(String id) {
-        User user = userRepository.findById(id)
+    private User getUserByIdOrThrow(String userId) {
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public UserResponse getUserById(String userId) {
+        User user = getUserByIdOrThrow(userId);
         return mapToUserResponse(user);
     }
 
@@ -72,15 +74,12 @@ public class UserService {
     }
 
     public void markUserAsOnline(String userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getUserByIdOrThrow(userId);
         user.markAsOnline();
         userRepository.save(user);
     }
-
     public void markUserAsOffline(String userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getUserByIdOrThrow(userId);
         user.markAsOffline();
         userRepository.save(user);
     }

@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-@SuppressWarnings("unused")
 public class JwtService {
     
     @Value("${jwt.secret}")
@@ -25,30 +24,32 @@ public class JwtService {
     @Value("${jwt.expiration}")
     private long jwtExpiration;
     
-    public String generateToken(String email) {
-        return generateToken(new HashMap<>(), email);
+    public String generateToken(String username) {
+        return generateToken(new HashMap<>(), username);
     }
     
-    public String generateToken(Map<String, Object> extraClaims, String email) {
+    public String generateToken(Map<String, Object> extraClaims, String username) {
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
     
-    public String extractEmail(String token) {
+    public String extractUserName(String token)
+    {
         return extractClaim(token, Claims::getSubject);
     }
     
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String email = extractEmail(token);
-        return (email.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String userName = extractUserName(token);
+        return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
     
-    private boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token)
+    {
         return extractExpiration(token).before(new Date());
     }
     
@@ -59,7 +60,7 @@ public class JwtService {
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
-    }
+    } //מחזירה את המידע המבוקש מהטוקן והאות t אומרת שזה יכול להחזיר כל סוג
     
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
@@ -73,4 +74,4 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-} 
+}

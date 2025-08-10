@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings("unused")
 public class AuthService {
     
     private final UserService userService;
@@ -44,7 +43,6 @@ public class AuthService {
         UserResponse userResponse = userService.getUserById(user.getId());
         String token = jwtService.generateToken(userResponse.getEmail());
         
-        // סימון המשתמש כ-online
         userService.markUserAsOnline(user.getId());
         
         return AuthResponse.builder()

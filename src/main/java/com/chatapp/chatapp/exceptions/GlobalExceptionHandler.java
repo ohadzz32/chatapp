@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
-@SuppressWarnings("unused")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class MessageResponse {
+    // המטרה של התיקייה הזאתי היא לשמש כמודל שמחזיר את פרטי ההודעה ואת ההודעות שיש בצאט
 
     private String id;
 

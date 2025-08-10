@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 @Builder
 public class ChatResponse {
+// המטרה של התיקייה הזאתי היא לשמש כמודל שמחזיר את פרטי הצ'אט ואת המשתתפים בו
 
     private String id;
 
@@ -22,4 +23,3 @@ public class ChatResponse {
     private LocalDateTime createdAt;
 }
 
-// הפרופיל של הצאט עצמו

@@ -13,13 +13,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings("unused")
 public class ChatService {
     
     private final ChatRepository chatRepository;
     
     public ChatResponse createPrivateChat(String user1Id, String user2Id) {
-        // בדיקה אם כבר קיים צ'אט פרטי בין המשתמשים
         List<Chat> existingChats = chatRepository.findByParticipantIdsContaining(user1Id);
         for (Chat chat : existingChats) {
             if (!chat.isGroup() && chat.getParticipantIds().contains(user2Id)) {
@@ -71,5 +69,6 @@ public class ChatService {
                 .participantIds(chat.getParticipantIds())
                 .createdAt(chat.getCreatedAt().toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDateTime())
                 .build();
+        //הפונקציאה הזאתי מחזירה אובייקט בצורה של dto שקבענו מראש במקרה הזה ChatResponse
     }
 } 

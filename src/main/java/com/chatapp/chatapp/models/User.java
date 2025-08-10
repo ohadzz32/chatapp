@@ -22,16 +22,17 @@ import java.util.Date;
 public class User {
 
     @Id
-    private String id; // מזהה ייחודי במסד הנתונים
+    private String id;
 
     @NotBlank
+    @Indexed(unique = true)
     private String username;
 
     @Email
     @Indexed(unique = true)
     private String email;
 
-    @Size(min = 6)
+    @Size(min = 8)
     @NotBlank
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",

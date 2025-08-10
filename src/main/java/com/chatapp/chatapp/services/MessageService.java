@@ -1,7 +1,9 @@
 package com.chatapp.chatapp.services;
 
 import com.chatapp.chatapp.dto.MessageResponse;
+import com.chatapp.chatapp.dto.UserResponse;
 import com.chatapp.chatapp.models.Message;
+import com.chatapp.chatapp.models.User;
 import com.chatapp.chatapp.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +15,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings("unused")
 public class MessageService {
     
     private final MessageRepository messageRepository;
@@ -35,18 +36,20 @@ public class MessageService {
                 .map(this::mapToMessageResponse)
                 .collect(Collectors.toList());
     }
-    
-    public MessageResponse getMessageById(String messageId) {
-        Message message = messageRepository.findById(messageId)
+
+    private Message getMessageByIdOrThrow(String messageId) {
+        return messageRepository.findById(messageId)
                 .orElseThrow(() -> new RuntimeException("Message not found"));
+    }
+
+    public MessageResponse getMessageById(String messageId) {
+        Message message = getMessageByIdOrThrow(messageId);
         return mapToMessageResponse(message);
     }
     
     public void deleteMessage(String messageId, String username) {
-        Message message = messageRepository.findById(messageId)
-                .orElseThrow(() -> new RuntimeException("Message not found"));
-        
-        // בדיקה אם המשתמש הוא השולח של ההודעה
+        Message message = getMessageByIdOrThrow(messageId);
+
         if (!message.getSenderId().equals(username)) {
             throw new RuntimeException("You can only delete your own messages");
         }

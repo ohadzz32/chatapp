@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 @Builder
 public class UserResponse {
 
+    //המטרה של התיקייה הזאתי היא לשמש כמודל שמחזיר את פרטי המשתמש
+    //קורא אחרי התחברות או הרשמה כדי להימנע רגיש ולהציג רק את מה שרלוונטי
+
     private String id;
 
     private String username;

@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class LoginRequest {
+    //מודל זה מראה את הפרטים הנדרשים שלמשתמש נכנס לאתר לאחר שהוא כבר רשום
+
     @NotBlank(message = "Username is required")
     private String username;
 

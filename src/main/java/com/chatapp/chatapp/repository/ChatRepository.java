@@ -13,6 +13,6 @@ public interface ChatRepository extends MongoRepository<Chat, String> {
 
     List<Chat> findByIsGroup(boolean isGroup);
 
-    Optional<Chat> findByName(String name); // תוקן כאן
+    Optional<Chat> findByName(String name); //
 }
 
