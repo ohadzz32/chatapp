@@ -93,18 +93,6 @@ src/main/java/com/chatapp/chatapp/
 - **Interface Segregation** - interfaces קטנים וממוקדים
 - **Dependency Inversion** - תלות ב-abstractions
 
-## 📊 ציון: 10/10 ⭐
-
-הפרויקט מושלם עם:
-- ✅ ארכיטקטורה נכונה
-- ✅ אבטחה מלאה
-- ✅ API מלא
-- ✅ WebSocket לתקשורת בזמן אמת
-- ✅ טיפול בשגיאות
-- ✅ קוד נקי ומאורגן
-- ✅ עקרונות SOLID
-
-## 🤝 תרומה
 
 אם יש לך הצעות לשיפור או תיקון באגים, אנא צור issue או pull request.
 
